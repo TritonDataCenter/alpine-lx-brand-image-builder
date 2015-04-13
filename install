@@ -20,10 +20,10 @@ Usage:
   $0 -r <RELEASE> -d <INSTALL_DIR> -m <MIRROR> -i <IMAGE_NAME> -p <NAME> -D <DESC> -u <DOCS>
 
 Example:
-  $0 -r wheezy -d /data/chroot -m http://mirrors.gigenet.com/alpinelinux/ -i lx-alpine -p "Alpine LX Brand" -D "Alpine 3.1.3 64-bit lx-brand image." -u https://docs.joyent.com/images/lx-brand-beta
+  $0 -r 3.1 -d /data/chroot -m http://mirrors.gigenet.com/alpinelinux/ -i lx-alpine -p "Alpine LX Brand" -D "Alpine 3.1.3 64-bit lx-brand image." -u https://docs.joyent.com/images/lx-brand-beta
 
 OPTIONS:
-  -r The desired release (e.g "wheezy")
+  -r The desired release (e.g "3.1")
   -d A path to the install directory
   -m A URL for the desired archive mirror
   -i The name of the image. This is used for naming the tarball. 
