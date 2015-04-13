@@ -59,7 +59,7 @@ do
       INSTALL_DIR=${OPTARG%/}
       ;;
     m)
-      MIRROR=${OPTARG}
+      MIRROR=${OPTARG%/}
       ;;
     i)
       IMAGE_NAME=${OPTARG}
