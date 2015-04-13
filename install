@@ -130,13 +130,13 @@ if [[ -d $INSTALL_DIR ]]; then
 fi
 
 echo "==> Getting Alpine $RELEASE..."
-wget -O /var/tmp/$PACKAGE wget $MIRROR/$RELEASE/main/x86_64/$APK_TOOLS
+wget -O /var/tmp/$APK_TOOLS wget $MIRROR/$RELEASE/main/x86_64/$APK_TOOLS
 
-echo "==> Verifying $PACKAGE"
+echo "==> Verifying $APK_TOOLS"
 
-echo "==> Extracting $PACKAGE"
+echo "==> Extracting $APK_TOOLS"
 cd /var/tmp/
-tar -xzf $PACKAGE
+tar -xzf $APK_TOOLS
 
 echo "==> Installing Alpine base"
 ./sbin/apk.static -X $MIRROR/$RELEASE/main -U --allow-untrusted --root $INSTALL_DIR --initdb add alpine-base
