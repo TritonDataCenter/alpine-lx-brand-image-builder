@@ -1,0 +1,149 @@
+#!/usr/bin/env bash
+#
+# Copyright (c) 2015 Joyent Inc., All rights reserved.
+#
+
+set -o errexit
+
+now=$(date -u +%Y-%m-%dT%TZ)
+vm_uuid=$(uuid)
+SUM=/usr/bin/sum
+description=
+filename=
+kernel=
+min_platform=
+name=
+os=
+version=
+homepage=
+
+usage()
+{
+  cat <<USAGE
+
+Create an image manifest from a given image file
+
+Usage:
+  $0 -f <filename> -k <kernel_version> -m <min_platform> -n <name> -v <version>
+
+  -d <image description> (optional, default: "<NAME> <VERSION> VM Image")
+  -f <filename of VM image> (required)
+  -n <name of VM image> (required)
+  -v <version of VM image> (required)
+  -h <homepage link> (optional)
+
+OPTIONS:
+  -d <image description> (optional, default: "<NAME> <VERSION> VM Image")
+  -f <filename of VM image> (required)
+  -k <kernel version for the VM image> (required)
+  -m <min_platform> (required)
+  -n <name of VM image> (required)
+  -o <the os of VM image> (optional, default: "other")
+  -v <version of VM image> (required)
+  -h <homepage link> (optional)
+
+Example:
+
+    $0 -f alpine-20150319.zfs.gz -k 3.14.36 -m 20150316T201553Z -n lx-alpine -v 20150319
+
+USAGE
+    exit 1
+}
+
+while getopts d:f:k:m:n:o:v:h:? OPTION
+do
+  case $OPTION in
+  d)
+      description=${OPTARG}
+      ;;
+  f)
+      filename=${OPTARG}
+      ;;
+  k)
+      kernel=${OPTARG}
+      ;;
+  m)
+      min_platform=${OPTARG}
+      ;;
+  n)
+      name=${OPTARG}
+      ;;
+  o)
+      os=${OPTARG}
+      ;;
+  v)
+      version=${OPTARG}
+      ;;
+  h)
+      homepage=${OPTARG}
+      ;;
+  \?)
+      usage
+      ;;
+  esac
+done
+
+if [[ -z ${filename} || -z ${kernel} || -z ${min_platform} || -z ${name} || -z ${version} ]]; then
+  echo "FATAL: All of -f, -k, -m, -n and -v are required."
+  usage
+fi
+
+if [[ -z ${description} ]]; then
+  description="${name} ${version} LX-brand image"
+fi
+
+if [[ -z ${os} ]]; then
+  os="other"
+fi
+
+if [[ -z ${homepage} ]]; then
+  homepage=https://docs.joyent.com/images
+fi
+
+if [[ ! -f ${filename} ]]; then
+  echo "FATAL: ${filename} does not exist."
+  usage
+fi
+
+shasum=$($SUM -x sha1 ${filename} | cut -d' ' -f1)
+filesize=$(ls -l ${filename} | awk '{ print $5 }')
+
+cat <<EOF
+{
+  "v": "2",
+  "name": "${name}",
+  "version": "${version}",
+  "type": "lx-dataset",
+  "description": "${description}",
+  "homepage": "${homepage}",
+  "published_at": "${now}",
+  "os": "${os}",
+  "files": [
+    {
+      "sha1": "${shasum}",
+      "size": ${filesize},
+      "compression": "gzip"
+    }
+  ],
+  "requirements": {
+    "networks": [
+      {
+        "name": "net0",
+        "description": "public"
+      }
+    ],
+    "min_platform": {
+         "7.0": "${min_platform}"
+       }
+  },
+  "uuid": "${vm_uuid}",
+  "public": false,
+  "owner": "00000000-0000-0000-0000-000000000000",
+  "tags": {
+    "role": "os",
+    "kernel_version": "${kernel}"
+  }
+}
+EOF
+
+exit 0

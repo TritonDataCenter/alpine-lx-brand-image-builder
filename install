@@ -1,0 +1,189 @@
+#!/usr/bin/env bash
+#
+# Copyright (c) 2015 Joyent Inc., All rights reserved.
+#
+# Install Alpine into a directory, modify the installation, then tar it up.
+#
+
+set -euo pipefail
+IFS=$'\n\t'
+
+GUESTTOOLS=guesttools
+BUILD_DATE=$(date +%Y%m%d)
+
+usage() {
+cat <<EOF
+
+Install and modify Alpine in a given directory in a given directory using a given mirror
+
+Usage:
+  $0 -r <RELEASE> -d <INSTALL_DIR> -m <MIRROR> -i <IMAGE_NAME> -p <NAME> -D <DESC> -u <DOCS>
+
+Example:
+  $0 -r wheezy -d /data/chroot -m http://mirrors.gigenet.com/alpinelinux/ -i lx-alpine -p "Alpine LX Brand" -D "Alpine 3.1.3 64-bit lx-brand image." -u https://docs.joyent.com/images/lx-brand-beta
+
+OPTIONS:
+  -r The desired release (e.g "wheezy")
+  -d A path to the install directory
+  -m A URL for the desired archive mirror
+  -i The name of the image. This is used for naming the tarball. 
+  -p The proper name of the image. Use quotes. This is used in the MOTD and /etc/product file.
+  -D A description for the image. This is used in the image manifest and the /etc/product file.
+  -u A URL to the image docs [optional]
+  -h Show this message
+
+
+EOF
+}
+
+RELEASE=
+APK_TOOLS=apk-tools-static-2.5.0_rc1-r0.apk
+INSTALL_DIR=
+MIRROR=
+IMAGE_NAME=
+NAME=
+DESC=
+DOCS=
+
+while getopts "hr:d:m:i:p:D:u:" OPTION
+do
+  case $OPTION in
+    h)
+      usage
+      exit
+      ;;
+    r)
+      RELEASE=${OPTARG}
+      ;;
+    d)
+      INSTALL_DIR=${OPTARG%/}
+      ;;
+    m)
+      MIRROR=${OPTARG}
+      ;;
+    i)
+      IMAGE_NAME=${OPTARG}
+      ;;
+    p)
+      NAME=${OPTARG}
+      ;;
+    D)
+      DESC=${OPTARG}
+      ;;
+    u)
+      DOCS=${OPTARG}
+      ;;
+    \?)
+      usage
+      exit
+      ;;
+  esac
+done
+
+if [[ $# -eq 0 ]]; then
+  usage
+  exit 1
+fi
+
+if [[ -z ${RELEASE} ]]; then
+  echo "Error: missing release (-r) value"
+  exit 1
+fi
+
+if [[ ! -e ${INSTALL_DIR} ]] ; then
+  echo "Directory $INSTALL_DIR not found"
+  exit 1
+fi
+
+if [[ -z ${INSTALL_DIR} ]]; then
+  echo "Error: missing install directory (-d) value"
+  exit 1
+fi
+
+if [[ -z ${MIRROR} ]]; then
+  echo "Error: missing mirror (-m) value"
+  exit 1
+fi
+
+if [[ -z ${IMAGE_NAME} ]]; then
+  echo "Error: missing image name (-i) value"
+  exit 1
+fi
+
+if [[ -z ${NAME} ]]; then
+  echo "Error: missing proper name (-p) value"
+  exit 1
+fi
+
+TARGET="${IMAGE_NAME}-${BUILD_DATE}.tar.gz"
+
+if [[ -z ${DOCS} ]]; then
+  DOCS="https://docs.joyent.com/images/lx-brand-beta"
+fi
+
+echo "==> Installing Alpine into $INSTALL_DIR"
+
+if [[ -d $INSTALL_DIR ]]; then
+  echo "====> Found previous chroot. Deleting and creating a new one."
+  rm -rf $INSTALL_DIR
+  mkdir -p $INSTALL_DIR
+fi
+
+echo "==> Getting Alpine $RELEASE..."
+wget -O /var/tmp/$PACKAGE wget $MIRROR/$RELEASE/main/x86_64/$APK_TOOLS
+
+echo "==> Verifying $PACKAGE"
+
+echo "==> Extracting $PACKAGE"
+cd /var/tmp/
+tar -xzf $PACKAGE
+
+echo "==> Installing Alpine base"
+./sbin/apk.static -X $MIRROR/$RELEASE/main -U --allow-untrusted --root $INSTALL_DIR --initdb add alpine-base
+
+echo "==> Installing packages..."
+chroot $INSTALL_DIR apk update
+chroot $INSTALL_DIR apk openssh vim wget curl less
+
+echo "==> Setting TZ to UTC"
+rm $INSTALL_DIR/etc/localtime
+cp $INSTALL_DIR/usr/share/zoneinfo/UTC $INSTALL_DIR/etc/localtime
+
+echo "==> Disabling PasswordAuthentication"
+sed s/PasswordAuthentication\ yes/PasswordAuthentication\ no/ -i $INSTALL_DIR/etc/ssh/sshd_config
+
+echo "==> Creating /etc/motd"
+cat << MOTD > $INSTALL_DIR/etc/motd
+   __        .                   .
+ _|  |_      | .-. .  . .-. :--. |-
+|_    _|     ;|   ||  |(.-' |  | |
+  |__|   \`--'  \`-' \`;-| \`-' '  ' \`-'
+                   /  ;  Instance ($NAME $BUILD_DATE)
+                   \`-'   $DOCS
+
+MOTD
+
+echo "==> Creating /etc/product file"
+cat << PRODUCT > $INSTALL_DIR/etc/product
+Name: Joyent Instance
+Image: $NAME $BUILD_DATE
+Documentation: $DOCS
+Description: $DESC
+PRODUCT
+
+echo "==> Installing Guest tools in $INSTALL_DIR"
+echo "====> Initiallizing and fetching submodule $GUESTTOOLS"
+git submodule init
+git submodule update
+echo "====> Running ./install.sh -i $INSTALL_DIR"
+cd $GUESTTOOLS
+./install.sh -i $INSTALL_DIR
+cd ..
+
+echo "==> Saving installation as $TARGET. This may take a few minutes."
+tar czf $TARGET --exclude-from=exclude.txt $INSTALL_DIR/
+
+echo "==> Installation complete!"
+echo "==> $TARGET"
+
+exit 0
