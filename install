@@ -175,14 +175,12 @@ echo "==> Adding initscripts to make sure Alpine is bootable"
 chroot $INSTALL_DIR rc-update add devfs sysinit
 chroot $INSTALL_DIR rc-update add dmesg sysinit
 chroot $INSTALL_DIR rc-update add mdev sysinit
-chroot $INSTALL_DIR 
 chroot $INSTALL_DIR rc-update add hwclock boot
 chroot $INSTALL_DIR rc-update add modules boot
 chroot $INSTALL_DIR rc-update add sysctl boot
 chroot $INSTALL_DIR rc-update add hostname boot
 chroot $INSTALL_DIR rc-update add bootmisc boot
 chroot $INSTALL_DIR rc-update add syslog boot
-chroot $INSTALL_DIR 
 chroot $INSTALL_DIR rc-update add mount-ro shutdown
 chroot $INSTALL_DIR rc-update add killprocs shutdown
 chroot $INSTALL_DIR rc-update add savecache shutdown
