@@ -153,7 +153,7 @@ cd ..
 
 echo "==> Installing packages..."
 chroot $INSTALL_DIR apk update
-chroot $INSTALL_DIR apk openssh vim wget curl less
+chroot $INSTALL_DIR apk add openssh vim wget curl less
 
 echo "==> Setting TZ to UTC"
 rm $INSTALL_DIR/etc/localtime
