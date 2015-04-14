@@ -127,9 +127,14 @@ echo "==> Installing Alpine into $INSTALL_DIR"
 
 if [[ -d $INSTALL_DIR ]]; then
   echo "====> Found previous chroot. Deleting and creating a new one."
-  umount $INSTALL_DIR/proc
-  umount $INSTALL_DIR/sys
-  umount $INSTALL_DIR/dev
+  
+  if [[ $(mount | grep -c $INSTALL_DIR/proc) -gt 0 ]]; then
+    umount $INSTALL_DIR/proc
+  elif [[ $(mount | grep -c $INSTALL_DIR/sys) -gt 0 ]]; then
+    umount $INSTALL_DIR/sys
+  elif [[ $(mount | grep -c $INSTALL_DIR/dev) -gt 0 ]]; then
+    umount $INSTALL_DIR/dev
+  fi
   
   rm -rf $INSTALL_DIR
   mkdir -p $INSTALL_DIR
