@@ -151,6 +151,14 @@ echo "===> Installing Alpine base"
 
 cd ..
 
+echo "==> Setting up resolv.conf"
+echo "nameserver 8.8.8.8" > $INSTALL_DIR/etc/resolv.conf
+echo "nameserver 8.8.4.4" >> $INSTALL_DIR/etc/resolv.conf
+
+echo "==> Setting up apk repositories using $MIRROR"
+mkdir -p $INSTALL_DIR/etc/apk
+echo "$MIRROR/v$RELEASE/main" > $INSTALL_DIR/etc/apk/repositories
+
 echo "==> Installing packages..."
 chroot $INSTALL_DIR apk update
 chroot $INSTALL_DIR apk add openssh vim wget curl less
