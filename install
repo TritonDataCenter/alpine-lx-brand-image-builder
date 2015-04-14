@@ -130,7 +130,9 @@ if [[ -d $INSTALL_DIR ]]; then
   
   if [[ $(mount | grep -c $INSTALL_DIR/proc) -gt 0 ]]; then
     umount $INSTALL_DIR/proc
-  elif [[ $(mount | grep -c $INSTALL_DIR/sys) -gt 0 ]]; then
+  fi
+  
+  if [[ $(mount | grep -c $INSTALL_DIR/sys) -gt 0 ]]; then
     umount $INSTALL_DIR/sys
   fi
   
