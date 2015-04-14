@@ -193,7 +193,10 @@ chroot $INSTALL_DIR rc-update add modules boot
 chroot $INSTALL_DIR rc-update add sysctl boot
 chroot $INSTALL_DIR rc-update add hostname boot
 chroot $INSTALL_DIR rc-update add bootmisc boot
+chroot $INSTALL_DIR rc-update add networking boot
 chroot $INSTALL_DIR rc-update add syslog boot
+chroot $INSTALL_DIR rc-update add sshd default
+chroot $INSTALL_DIR rc-update add cron
 chroot $INSTALL_DIR rc-update add mount-ro shutdown
 chroot $INSTALL_DIR rc-update add killprocs shutdown
 chroot $INSTALL_DIR rc-update add savecache shutdown
