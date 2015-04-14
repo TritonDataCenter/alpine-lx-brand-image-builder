@@ -159,6 +159,11 @@ echo "==> Setting up apk repositories using $MIRROR"
 mkdir -p $INSTALL_DIR/etc/apk
 echo "$MIRROR/v$RELEASE/main" > $INSTALL_DIR/etc/apk/repositories
 
+echo "==> Mounting /proc /sys and /dev in the $INSTALL_DIR"
+mount -t proc none $INSTALL_DIR/proc
+mount -o bind /sys $INSTALL_DIR/sys
+mount -o bind /dev $INSTALL_DIR/dev
+
 echo "==> Installing packages..."
 chroot $INSTALL_DIR apk update
 chroot $INSTALL_DIR apk add openssh vim wget curl less
