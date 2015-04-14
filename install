@@ -131,17 +131,25 @@ if [[ -d $INSTALL_DIR ]]; then
   mkdir -p $INSTALL_DIR
 fi
 
-echo "==> Getting Alpine $RELEASE..."
-wget -O /var/tmp/$APK_TOOLS wget $MIRROR/v$RELEASE/main/x86_64/$APK_TOOLS
+echo "===> Getting Alpine $RELEASE..."
 
-echo "==> Verifying $APK_TOOLS"
+if [[ ! -d tmp/ ]]; then
+  echo "===> creating tmp/ directory"
+  mkdir tmp
+fi
+
+curl -O $MIRROR/v$RELEASE/main/x86_64/$APK_TOOLS
+
+echo "===> Verifying $APK_TOOLS"
+cd tmp
 
 echo "==> Extracting $APK_TOOLS"
-cd /var/tmp/
 tar -xzf $APK_TOOLS
 
-echo "==> Installing Alpine base"
-./sbin/apk.static -X $MIRROR/$RELEASE/main -U --allow-untrusted --root $INSTALL_DIR --initdb add alpine-base
+echo "===> Installing Alpine base"
+./sbin/apk.static -X $MIRROR/v$RELEASE/main -U --allow-untrusted --root $INSTALL_DIR --initdb add alpine-base
+
+cd ..
 
 echo "==> Installing packages..."
 chroot $INSTALL_DIR apk update
