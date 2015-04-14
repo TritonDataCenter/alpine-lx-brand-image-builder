@@ -1,3 +1,4 @@
 *.tar.gz
 *.json
 *.zfs.gz
+tmp/
