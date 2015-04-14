@@ -132,8 +132,6 @@ if [[ -d $INSTALL_DIR ]]; then
     umount $INSTALL_DIR/proc
   elif [[ $(mount | grep -c $INSTALL_DIR/sys) -gt 0 ]]; then
     umount $INSTALL_DIR/sys
-  elif [[ $(mount | grep -c $INSTALL_DIR/dev) -gt 0 ]]; then
-    umount $INSTALL_DIR/dev
   fi
   
   rm -rf $INSTALL_DIR
@@ -171,7 +169,6 @@ echo "$MIRROR/v$RELEASE/main" > $INSTALL_DIR/etc/apk/repositories
 echo "==> Mounting /proc /sys and /dev in the $INSTALL_DIR"
 mount -t proc none $INSTALL_DIR/proc
 mount -o bind /sys $INSTALL_DIR/sys
-mount -o bind /dev $INSTALL_DIR/dev
 
 echo "==> Installing packages..."
 chroot $INSTALL_DIR apk update
