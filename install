@@ -164,8 +164,10 @@ chroot $INSTALL_DIR apk update
 chroot $INSTALL_DIR apk add openssh vim wget curl less
 
 echo "==> Setting TZ to UTC"
+chroot $INSTALL_DIR apk add tzdata
 rm $INSTALL_DIR/etc/localtime
 cp $INSTALL_DIR/usr/share/zoneinfo/UTC $INSTALL_DIR/etc/localtime
+chroot $INSTALL_DIR apk del tzdata
 
 echo "==> Disabling PasswordAuthentication"
 sed s/PasswordAuthentication\ yes/PasswordAuthentication\ no/ -i $INSTALL_DIR/etc/ssh/sshd_config
