@@ -182,7 +182,7 @@ cp $INSTALL_DIR/usr/share/zoneinfo/UTC $INSTALL_DIR/etc/localtime
 chroot $INSTALL_DIR apk del --purge tzdata
 
 echo "==> Removing Linux kernel packages"
-chroot $INSTALL_DIR apk del --purge linux-firmware linux-grsec
+chroot $INSTALL_DIR apk del --purge linux-grsec
 
 echo "==> Disabling PasswordAuthentication"
 sed s/PasswordAuthentication\ yes/PasswordAuthentication\ no/ -i $INSTALL_DIR/etc/ssh/sshd_config
