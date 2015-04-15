@@ -179,7 +179,7 @@ chroot $INSTALL_DIR apk add openssh vim wget curl less
 echo "==> Setting TZ to UTC"
 chroot $INSTALL_DIR apk add tzdata
 cp $INSTALL_DIR/usr/share/zoneinfo/UTC $INSTALL_DIR/etc/localtime
-chroot $INSTALL_DIR apk del tzdata
+chroot $INSTALL_DIR apk del --purge tzdata
 
 echo "==> Removing Linux kernel packages"
 chroot $INSTALL_DIR apk del --purge linux-firmware linux-grsec
