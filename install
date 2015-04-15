@@ -205,9 +205,11 @@ chroot $INSTALL_DIR rc-update add killprocs shutdown
 chroot $INSTALL_DIR rc-update add savecache shutdown
 
 echo "Making /sbin/init symlink relative"
-
 rm $INSTALL_DIR/sbin/init
-chroot $INSTALL_DIR cd /sbin/; ln -s ../bin/busybox init
+pushd $PWD
+cd $INSTALL_DIR/sbin/
+ln -s ../bin/busybox init
+popd
 
 echo "==> Creating /etc/motd"
 cat << MOTD > $INSTALL_DIR/etc/motd
