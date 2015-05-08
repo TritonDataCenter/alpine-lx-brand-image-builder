@@ -204,6 +204,7 @@ chroot $INSTALL_DIR rc-update add cron default
 chroot $INSTALL_DIR rc-update add mount-ro shutdown
 chroot $INSTALL_DIR rc-update add killprocs shutdown
 chroot $INSTALL_DIR rc-update add savecache shutdown
+chroot $INSTALL_DIR rc-update add local default
 
 echo "Making /sbin/init symlink relative"
 rm $INSTALL_DIR/sbin/init
