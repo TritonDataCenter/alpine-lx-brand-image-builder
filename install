@@ -191,7 +191,6 @@ sed s/PasswordAuthentication\ yes/PasswordAuthentication\ no/ -i $INSTALL_DIR/et
 echo "==> Adding initscripts to make sure Alpine is bootable"
 chroot $INSTALL_DIR rc-update add devfs sysinit
 chroot $INSTALL_DIR rc-update add dmesg sysinit
-chroot $INSTALL_DIR rc-update add mdev sysinit
 chroot $INSTALL_DIR rc-update add hwclock boot
 chroot $INSTALL_DIR rc-update add modules boot
 chroot $INSTALL_DIR rc-update add sysctl boot
