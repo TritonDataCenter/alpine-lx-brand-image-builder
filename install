@@ -151,8 +151,6 @@ cd tmp/
 
 curl -O -f $MIRROR/v$RELEASE/main/x86_64/$APK_TOOLS
 
-echo "===> Verifying $APK_TOOLS"
-
 echo "==> Extracting $APK_TOOLS"
 tar -xzf $APK_TOOLS
 
