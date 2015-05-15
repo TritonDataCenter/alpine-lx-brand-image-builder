@@ -39,7 +39,7 @@ EOF
 }
 
 RELEASE=
-APK_TOOLS=apk-tools-static-2.5.0_rc1-r0.apk
+APK_TOOLS=apk-tools-static-2.5.0_rc1-r1.apk
 INSTALL_DIR=
 MIRROR=
 IMAGE_NAME=
