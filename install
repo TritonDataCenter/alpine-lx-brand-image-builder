@@ -149,7 +149,7 @@ fi
 
 cd tmp/
 
-curl -O $MIRROR/v$RELEASE/main/x86_64/$APK_TOOLS
+curl -O -f $MIRROR/v$RELEASE/main/x86_64/$APK_TOOLS
 
 echo "===> Verifying $APK_TOOLS"
 
