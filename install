@@ -191,7 +191,7 @@ mount -o bind /sys $INSTALL_DIR/sys
 
 echo "==> Installing packages..."
 chroot $INSTALL_DIR apk update
-chroot $INSTALL_DIR apk add bash openssh
+chroot $INSTALL_DIR apk add bash openssh wget curl
 
 echo "==> Setting TZ to UTC"
 chroot $INSTALL_DIR apk add tzdata
