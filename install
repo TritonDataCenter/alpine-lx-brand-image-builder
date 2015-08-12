@@ -243,6 +243,9 @@ cd $INSTALL_DIR/usr/bin/
 ln -s ../../bin/bbsuid ./su
 popd
 
+echo "Installing shutdown wrapper script"
+cp ./shutdown $INSTALL_DIR/sbin/
+
 echo "==> Creating /etc/motd"
 cat << MOTD > $INSTALL_DIR/etc/motd
    __        .                   .
