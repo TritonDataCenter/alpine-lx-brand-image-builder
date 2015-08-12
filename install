@@ -209,8 +209,8 @@ sed s/UsePrivilegeSeparation\ sandbox/UsePrivilegeSeparation\ yes/ -i $INSTALL_D
 
 echo "==> Adding initscripts to make sure Alpine is bootable"
 chroot $INSTALL_DIR rc-update add devfs sysinit
-#chroot $INSTALL_DIR rc-update add dmesg sysinit
-#chroot $INSTALL_DIR rc-update add mdev sysinit
+chroot $INSTALL_DIR rc-update add dmesg sysinit
+chroot $INSTALL_DIR rc-update add mdev sysinit
 
 chroot $INSTALL_DIR rc-update add bootmisc boot
 chroot $INSTALL_DIR rc-update add hostname boot
