@@ -232,9 +232,6 @@ chroot $INSTALL_DIR rc-update add mount-ro shutdown
 chroot $INSTALL_DIR rc-update add killprocs shutdown
 chroot $INSTALL_DIR rc-update add savecache shutdown
 
-echo "==> Cleaning apk cache"
-chroot $INSTALL_DIR apk cache clean
-
 echo "==> Making /sbin/init symlink relative"
 rm $INSTALL_DIR/sbin/init
 pushd $PWD
