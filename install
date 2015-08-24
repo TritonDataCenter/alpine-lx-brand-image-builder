@@ -177,11 +177,6 @@ echo "===> Installing Alpine base"
 
 cd ..
 
-echo "==> Setting TZ to UTC"
-chroot $INSTALL_DIR apk add --update tzdata
-cp $INSTALL_DIR/usr/share/zoneinfo/UTC $INSTALL_DIR/etc/localtime
-chroot $INSTALL_DIR apk del --purge tzdata
-
 echo "==> Setting up resolv.conf"
 echo "nameserver 8.8.8.8" > $INSTALL_DIR/etc/resolv.conf
 echo "nameserver 8.8.4.4" >> $INSTALL_DIR/etc/resolv.conf
@@ -193,6 +188,11 @@ echo "$MIRROR/v$RELEASE/main" > $INSTALL_DIR/etc/apk/repositories
 echo "==> Mounting /proc /sys and /dev in the $INSTALL_DIR"
 mount -t proc none $INSTALL_DIR/proc
 mount -o bind /sys $INSTALL_DIR/sys
+
+echo "==> Setting TZ to UTC"
+chroot $INSTALL_DIR apk add --update tzdata
+cp $INSTALL_DIR/usr/share/zoneinfo/UTC $INSTALL_DIR/etc/localtime
+chroot $INSTALL_DIR apk del --purge tzdata
 
 echo "==> Installing packages..."
 chroot $INSTALL_DIR apk update
