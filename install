@@ -177,6 +177,11 @@ echo "===> Installing Alpine base"
 
 cd ..
 
+echo "==> Setting TZ to UTC"
+chroot $INSTALL_DIR apk add --update tzdata
+cp $INSTALL_DIR/usr/share/zoneinfo/UTC $INSTALL_DIR/etc/localtime
+chroot $INSTALL_DIR apk del --purge tzdata
+
 echo "==> Setting up resolv.conf"
 echo "nameserver 8.8.8.8" > $INSTALL_DIR/etc/resolv.conf
 echo "nameserver 8.8.4.4" >> $INSTALL_DIR/etc/resolv.conf
@@ -194,10 +199,6 @@ chroot $INSTALL_DIR apk update
 chroot $INSTALL_DIR apk add --update bash curl less man openssh vim wget
 chroot $INSTALL_DIR apk add --update bash-doc curl-doc less-doc man-doc openssh-doc vim-doc wget-doc
 
-echo "==> Setting TZ to UTC"
-chroot $INSTALL_DIR apk add tzdata
-cp $INSTALL_DIR/usr/share/zoneinfo/UTC $INSTALL_DIR/etc/localtime
-chroot $INSTALL_DIR apk del --purge tzdata
 
 echo "==> Removing Linux kernel packages"
 chroot $INSTALL_DIR apk del --purge linux-grsec
