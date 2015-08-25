@@ -196,8 +196,7 @@ chroot $INSTALL_DIR apk del --purge tzdata
 
 echo "==> Installing packages..."
 chroot $INSTALL_DIR apk update
-chroot $INSTALL_DIR apk add --update bash curl less man openssh vim wget
-chroot $INSTALL_DIR apk add --update bash-doc curl-doc less-doc man-doc openssh-doc vim-doc wget-doc
+chroot $INSTALL_DIR apk add --update bash curl less openssh vim wget
 
 
 echo "==> Removing Linux kernel packages"
