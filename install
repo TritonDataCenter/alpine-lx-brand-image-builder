@@ -198,9 +198,8 @@ echo "==> Installing packages..."
 chroot $INSTALL_DIR apk update
 chroot $INSTALL_DIR apk add --update bash curl openssh vim wget
 
-
-echo "==> Removing Linux kernel packages"
-chroot $INSTALL_DIR apk del --purge linux-grsec
+#echo "==> Removing Linux kernel packages"
+#chroot $INSTALL_DIR apk del --purge linux-grsec
 
 echo "==> Make sure apk packages are up-to-date"
 chroot $INSTALL_DIR apk upgrade
