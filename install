@@ -22,7 +22,7 @@ Usage:
   $0 -r <RELEASE> -a <APK_TOOLS> -d <INSTALL_DIR> -m <MIRROR> -i <IMAGE_NAME> -p <NAME> -D <DESC> -u <DOCS>
 
 Example:
-  $0 -r 3.1 -a apk-tools-static-2.6.1-r0.apk -d /data/alpine -m http://mirrors.gigenet.com/alpinelinux/ -i alpine-3 -p "Alpine Linux" -D "Alpine 3.1.3 64-bit lx-brand image." -u https://docs.joyent.com/images/lx-brand-beta
+  $0 -r 3.1 -a apk-tools-static-2.6.1-r0.apk -d /data/alpine -m http://mirrors.gigenet.com/alpinelinux/ -i alpine-3 -p "Alpine Linux" -D "Alpine 3.1.3 64-bit lx-brand image." -u https://docs.joyent.com/images/container-native-linux
 
 OPTIONS:
   -r The desired release (e.g "3.2")
@@ -129,7 +129,7 @@ fi
 TARGET="${IMAGE_NAME}-${BUILD_DATE}.tar.gz"
 
 if [[ -z ${DOCS} ]]; then
-  DOCS="https://docs.joyent.com/images/lx-brand-beta"
+  DOCS="https://docs.joyent.com/images/container-native-linux"
 fi
 
 echo "==> Installing Alpine into $INSTALL_DIR"
