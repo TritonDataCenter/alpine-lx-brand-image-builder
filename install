@@ -8,7 +8,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-#set -o xtrace
+set -o xtrace
 
 GUESTTOOLS=guesttools
 BUILD_DATE=$(date +%Y%m%d)
