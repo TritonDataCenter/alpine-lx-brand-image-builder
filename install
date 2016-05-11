@@ -169,7 +169,7 @@ mkdir -p $INSTALL_DIR/etc/apk/keys
 alpinekeys=( 4a6a0840 4d07755e 5243ef4b 524d27bb 5261cecb )
 
 for key in "${alpinekeys[@]}"; do
-  curl -sSo $INSTALL_DIR/etc/apk/keys/alpine-devel@lists.alpinelinux.org-$key.rsa.pub https://www.alpinelinux.org/keys/alpine-devel%40lists.alpinelinux.org-$key.rsa.pub
+  curl -sSo $INSTALL_DIR/etc/apk/keys/alpine-devel@lists.alpinelinux.org-$key.rsa.pub https://alpinelinux.org/keys/alpine-devel%40lists.alpinelinux.org-$key.rsa.pub
 done
 
 echo "===> Installing Alpine base"
