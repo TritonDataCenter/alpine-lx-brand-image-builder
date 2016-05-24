@@ -206,7 +206,8 @@ echo "==> Make sure apk packages are up-to-date"
 chroot $INSTALL_DIR apk upgrade
 
 echo "==> Disabling PasswordAuthentication"
-sed s/PasswordAuthentication\ yes/PasswordAuthentication\ no/ -i $INSTALL_DIR/etc/ssh/sshd_config
+sed -ri s/^#?PasswordAuthentication\ no/PasswordAuthentication\ no/ -i $INSTALL_DIR/etc/ssh/sshd_config
+sed -ri s/^#?PasswordAuthentication\ yes/PasswordAuthentication\ no/ -i $INSTALL_DIR/etc/ssh/sshd_config
 
 echo "==> Enabling UsePrivilegeSeparation (default is 'sandbox')"
 sed s/UsePrivilegeSeparation\ sandbox/UsePrivilegeSeparation\ yes/ -i $INSTALL_DIR/etc/ssh/sshd_config
