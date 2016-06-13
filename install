@@ -226,7 +226,7 @@ chroot $INSTALL_DIR rc-update add networking boot
 chroot $INSTALL_DIR rc-update add sysctl boot
 chroot $INSTALL_DIR rc-update add syslog boot
 
-chroot $INSTALL_DIR rc-update add cron default
+chroot $INSTALL_DIR rc-update add crond default
 chroot $INSTALL_DIR rc-update add local default
 chroot $INSTALL_DIR rc-update add sshd default
 
