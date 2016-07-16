@@ -6,8 +6,10 @@ This is a collection of scripts used for creating an lx-brand Alpine image.
 
 In order to use these scripts you'll need:
 
-- Alpine, Ubuntu or CentOS running in a VM or bare metal (required for the `install` script)
+- Alpine, Ubuntu or CentOS running in a VM (required for the `install` script). 
 - A SmartOS (or SDC headnode) install (required for the `create-lx-image` script)
+
+Note that the `install` script will fail if run in an lx-brand enironment.
 
 ## Usage
 
