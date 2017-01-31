@@ -183,7 +183,13 @@ echo "nameserver 8.8.4.4" >> $INSTALL_DIR/etc/resolv.conf
 
 echo "==> Setting up apk repositories using $MIRROR"
 mkdir -p $INSTALL_DIR/etc/apk
-echo "$MIRROR/v$RELEASE/main" > $INSTALL_DIR/etc/apk/repositories
+
+cat << APK > $INSTALL_DIR/etc/apk/repositories
+$MIRROR/v$RELEASE/main
+$MIRROR/v$RELEASE/community
+APK
+
+
 
 echo "==> Mounting /proc /sys and /dev in the $INSTALL_DIR"
 mount -t proc none $INSTALL_DIR/proc
