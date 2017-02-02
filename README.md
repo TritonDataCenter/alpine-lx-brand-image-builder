@@ -1,6 +1,6 @@
 # Alpine lx-brand Image Builder
 
-[![Build Status](https://travis-ci.org/joyent/alpine-lx-brand-image-builder.svg?branch=master)](https://travis-ci.org/joyent/alpine-lx-brand-image-builder)
+[![Build Status](https://travis-ci.org/joyent/alpine-lx-brand-image-builder.svg?branch=master)](https://travis-ci.org/joyent/alpine-lx-brand-image-builder) (shellcheck)
 
 This is a collection of scripts used for creating an lx-brand Alpine image.
 
