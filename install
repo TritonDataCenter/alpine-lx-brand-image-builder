@@ -50,110 +50,110 @@ DOCS=
 
 while getopts "hr:a:d:m:i:p:D:u:" OPTION
 do
-  case $OPTION in
-    h)
-      usage
-      exit
-      ;;
-    r)
-      RELEASE=${OPTARG}
-      ;;
-    a)
-      APK_TOOLS=${OPTARG}
-      ;;
-    d)
-      INSTALL_DIR=${OPTARG%/}
-      ;;
-    m)
-      MIRROR=${OPTARG%/}
-      ;;
-    i)
-      IMAGE_NAME=${OPTARG}
-      ;;
-    p)
-      NAME=${OPTARG}
-      ;;
-    D)
-      DESC=${OPTARG}
-      ;;
-    u)
-      DOCS=${OPTARG}
-      ;;
-    \?)
-      usage
-      exit
-      ;;
-  esac
+	case $OPTION in
+		h)
+			usage
+			exit
+			;;
+		r)
+			RELEASE=${OPTARG}
+			;;
+		a)
+			APK_TOOLS=${OPTARG}
+			;;
+		d)
+			INSTALL_DIR=${OPTARG%/}
+			;;
+		m)
+			MIRROR=${OPTARG%/}
+			;;
+		i)
+			IMAGE_NAME=${OPTARG}
+			;;
+		p)
+			NAME=${OPTARG}
+			;;
+		D)
+			DESC=${OPTARG}
+			;;
+		u)
+			DOCS=${OPTARG}
+			;;
+		\?)
+			usage
+			exit
+			;;
+	esac
 done
 
 if [[ $# -eq 0 ]]; then
-  usage
-  exit 1
+	usage
+	exit 1
 fi
 
 if [[ -z ${RELEASE} ]]; then
-  echo "Error: missing release (-r) value"
-  exit 1
+	echo "Error: missing release (-r) value"
+	exit 1
 fi
 
 if [[ -z ${APK_TOOLS} ]]; then
-  echo "Error: missing apk-tools-static package (-a) value"
-  exit 1
+	echo "Error: missing apk-tools-static package (-a) value"
+	exit 1
 fi
 
 if [[ ! -e ${INSTALL_DIR} ]] ; then
-  echo "Directory $INSTALL_DIR not found"
-  exit 1
+	echo "Directory $INSTALL_DIR not found"
+	exit 1
 fi
 
 if [[ -z ${INSTALL_DIR} ]]; then
-  echo "Error: missing install directory (-d) value"
-  exit 1
+	echo "Error: missing install directory (-d) value"
+	exit 1
 fi
 
 if [[ -z ${MIRROR} ]]; then
-  echo "Error: missing mirror (-m) value"
-  exit 1
+	echo "Error: missing mirror (-m) value"
+	exit 1
 fi
 
 if [[ -z ${IMAGE_NAME} ]]; then
-  echo "Error: missing image name (-i) value"
-  exit 1
+	echo "Error: missing image name (-i) value"
+	exit 1
 fi
 
 if [[ -z ${NAME} ]]; then
-  echo "Error: missing proper name (-p) value"
-  exit 1
+	echo "Error: missing proper name (-p) value"
+	exit 1
 fi
 
 TARGET="${IMAGE_NAME}-${BUILD_DATE}.tar.gz"
 
 if [[ -z ${DOCS} ]]; then
-  DOCS="https://docs.joyent.com/images/container-native-linux"
+	DOCS="https://docs.joyent.com/images/container-native-linux"
 fi
 
 echo "==> Installing Alpine into $INSTALL_DIR"
 
 if [[ -d $INSTALL_DIR ]]; then
-  echo "====> Found previous chroot. Deleting and creating a new one."
-  
-  if [[ $(mount | grep -c $INSTALL_DIR/proc) -gt 0 ]]; then
-    umount $INSTALL_DIR/proc
+	echo "====> Found previous chroot. Deleting and creating a new one."
+
+	if [[ $(mount | grep -c $INSTALL_DIR/proc) -gt 0 ]]; then
+		umount $INSTALL_DIR/proc
   fi
-  
-  if [[ $(mount | grep -c $INSTALL_DIR/sys) -gt 0 ]]; then
-    umount $INSTALL_DIR/sys
-  fi
-  
-  rm -rf $INSTALL_DIR
-  mkdir -p $INSTALL_DIR
+
+	if [[ $(mount | grep -c $INSTALL_DIR/sys) -gt 0 ]]; then
+		umount $INSTALL_DIR/sys
+	fi
+
+	rm -rf $INSTALL_DIR
+	mkdir -p $INSTALL_DIR
 fi
 
 echo "===> Getting Alpine $RELEASE..."
 
 if [[ ! -d tmp/ ]]; then
-  echo "===> creating tmp/ directory"
-  mkdir tmp
+	echo "===> creating tmp/ directory"
+	mkdir tmp
 fi
 
 cd tmp/
@@ -169,7 +169,7 @@ mkdir -p $INSTALL_DIR/etc/apk/keys
 alpinekeys=( 4a6a0840 4d07755e 5243ef4b 524d27bb 5261cecb )
 
 for key in "${alpinekeys[@]}"; do
-  curl -sSo $INSTALL_DIR/etc/apk/keys/alpine-devel@lists.alpinelinux.org-$key.rsa.pub https://alpinelinux.org/keys/alpine-devel%40lists.alpinelinux.org-$key.rsa.pub
+	curl -sSo $INSTALL_DIR/etc/apk/keys/alpine-devel@lists.alpinelinux.org-$key.rsa.pub https://alpinelinux.org/keys/alpine-devel%40lists.alpinelinux.org-$key.rsa.pub
 done
 
 echo "===> Installing Alpine base"
@@ -279,8 +279,8 @@ git submodule init
 git submodule update
 echo "====> Running ./install.sh -i $INSTALL_DIR"
 (
-  cd $GUESTTOOLS
-  ./install.sh -i $INSTALL_DIR
+	cd $GUESTTOOLS
+	./install.sh -i $INSTALL_DIR
 )
 
 echo "==> Saving installation as $TARGET. This may take a few minutes."
