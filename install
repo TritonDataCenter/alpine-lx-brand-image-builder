@@ -35,7 +35,6 @@ OPTIONS:
   -u A URL to the image docs [optional]
   -h Show this message
 
-
 EOF
 }
 
@@ -189,8 +188,6 @@ $MIRROR/v$RELEASE/main
 $MIRROR/v$RELEASE/community
 APK
 
-
-
 echo "==> Mounting /proc /sys and /dev in the $INSTALL_DIR"
 mount -t proc none $INSTALL_DIR/proc
 mount -o bind /sys $INSTALL_DIR/sys
@@ -203,7 +200,6 @@ chroot $INSTALL_DIR apk del --purge tzdata
 echo "==> Installing packages..."
 chroot $INSTALL_DIR apk update
 chroot $INSTALL_DIR apk add --update bash curl gettext less man ncurses-terminfo openssh vim wget
-
 
 echo "==> Removing Linux kernel packages"
 chroot $INSTALL_DIR apk del --purge linux-grsec
@@ -277,6 +273,7 @@ echo "==> Installing Guest tools in $INSTALL_DIR"
 echo "====> Initiallizing and fetching submodule $GUESTTOOLS"
 git submodule init
 git submodule update
+
 echo "====> Running ./install.sh -i $INSTALL_DIR"
 (
 	cd $GUESTTOOLS
