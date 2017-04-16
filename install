@@ -280,7 +280,6 @@ git submodule update
 echo "====> Running ./install.sh -i $INSTALL_DIR"
 (
 	cd $GUESTTOOLS
-  export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
 	./install.sh -i $INSTALL_DIR
 )
 
