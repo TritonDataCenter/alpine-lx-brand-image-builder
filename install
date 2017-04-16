@@ -219,25 +219,25 @@ sed s/UsePrivilegeSeparation\ sandbox/UsePrivilegeSeparation\ yes/ -i $INSTALL_D
 sed s/#UsePrivilegeSeparation\ yes/UsePrivilegeSeparation\ yes/ -i $INSTALL_DIR/etc/ssh/sshd_config
 
 echo "==> Adding initscripts to make sure Alpine is bootable"
-chroot $INSTALL_DIR rc-update add devfs sysinit
-chroot $INSTALL_DIR rc-update add dmesg sysinit
-chroot $INSTALL_DIR rc-update add mdev sysinit
+chroot $INSTALL_DIR /sbin/rc-update add devfs sysinit
+chroot $INSTALL_DIR /sbin/rc-update add dmesg sysinit
+chroot $INSTALL_DIR /sbin/rc-update add mdev sysinit
 
-chroot $INSTALL_DIR rc-update add bootmisc boot
-chroot $INSTALL_DIR rc-update add hostname boot
-chroot $INSTALL_DIR rc-update add hwclock boot
-chroot $INSTALL_DIR rc-update add modules boot
-chroot $INSTALL_DIR rc-update add networking boot
-chroot $INSTALL_DIR rc-update add sysctl boot
-chroot $INSTALL_DIR rc-update add syslog boot
+chroot $INSTALL_DIR /sbin/rc-update add bootmisc boot
+chroot $INSTALL_DIR /sbin/rc-update add hostname boot
+chroot $INSTALL_DIR /sbin/rc-update add hwclock boot
+chroot $INSTALL_DIR /sbin/rc-update add modules boot
+chroot $INSTALL_DIR /sbin/rc-update add networking boot
+chroot $INSTALL_DIR /sbin/rc-update add sysctl boot
+chroot $INSTALL_DIR /sbin/rc-update add syslog boot
 
-chroot $INSTALL_DIR rc-update add crond default
-chroot $INSTALL_DIR rc-update add local default
-chroot $INSTALL_DIR rc-update add sshd default
+chroot $INSTALL_DIR /sbin/rc-update add crond default
+chroot $INSTALL_DIR /sbin/rc-update add local default
+chroot $INSTALL_DIR /sbin/rc-update add sshd default
 
-chroot $INSTALL_DIR rc-update add mount-ro shutdown
-chroot $INSTALL_DIR rc-update add killprocs shutdown
-chroot $INSTALL_DIR rc-update add savecache shutdown
+chroot $INSTALL_DIR /sbin/rc-update add mount-ro shutdown
+chroot $INSTALL_DIR /sbin/rc-update add killprocs shutdown
+chroot $INSTALL_DIR /sbin/rc-update add savecache shutdown
 
 echo "==> Making /sbin/init symlink relative"
 rm $INSTALL_DIR/sbin/init
