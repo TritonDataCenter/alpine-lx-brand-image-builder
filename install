@@ -249,7 +249,7 @@ ln -s ../bin/busybox init
 popd
 
 echo "==> Making /usr/bin/su symlink relative"
-rm $INSTALL_DIR/usr/bin/su
+[ -e $INSTALL_DIR/usr/bin/su ] && rm $INSTALL_DIR/usr/bin/su
 pushd $PWD
 cd $INSTALL_DIR/usr/bin/
 ln -s ../../bin/bbsuid ./su
@@ -286,7 +286,12 @@ echo "====> Running ./install.sh -i $INSTALL_DIR"
 )
 
 echo "==> Saving installation as $TARGET. This may take a few minutes."
-tar czf $TARGET --exclude-from=exclude.txt $INSTALL_DIR/
+umount $INSTALL_DIR/proc
+umount $INSTALL_DIR/sys
+tar czf $TARGET $(eval echo $(sed -e 's/^/--exclude=$INSTALL_DIR\//g' exclude.txt | sed -e 's/exclude=\//exclude=/g' | tr '\n' ' ')) $INSTALL_DIR/
+
+echo "==> Cleanup chroot $INSTALL_DIR"
+rm -rf $INSTALL_DIR
 
 echo "==> Installation complete!"
 echo "==> $TARGET"
