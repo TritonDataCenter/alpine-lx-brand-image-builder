@@ -248,12 +248,12 @@ cd $INSTALL_DIR/sbin/
 ln -s ../bin/busybox init
 popd
 
-echo "==> Making /usr/bin/su symlink relative"
-rm $INSTALL_DIR/usr/bin/su
-pushd $PWD
-cd $INSTALL_DIR/usr/bin/
-ln -s ../../bin/bbsuid ./su
-popd
+#echo "==> Making /usr/bin/su symlink relative"
+#rm $INSTALL_DIR/usr/bin/su
+#pushd $PWD
+#cd $INSTALL_DIR/usr/bin/
+#ln -s ../../bin/bbsuid ./su
+#popd
 
 echo "==> Creating /etc/motd"
 cat << MOTD > $INSTALL_DIR/etc/motd
